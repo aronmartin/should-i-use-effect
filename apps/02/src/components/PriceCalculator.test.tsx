@@ -92,4 +92,19 @@ describe('PriceCalculator', () => {
     // Check that we didn't have extra renders
     expect(renderCount).toBeLessThanOrEqual(expectedRenders + 1); // +1 for the force render
   });
+
+  // New test to check for the anti-pattern by examining the component's source code
+  test('should not use useEffect for derived state (anti-pattern check)', () => {
+    // Get the component's source code
+    const componentSource = PriceCalculator.toString();
+
+    // Check if the component contains the anti-pattern
+    const hasUseEffectForDerivedState =
+      componentSource.includes('useEffect') &&
+      componentSource.includes('setFinalAmount') &&
+      componentSource.includes('[price, discount]');
+
+    // This test will fail if the component is still using useEffect for derived state
+    expect(hasUseEffectForDerivedState).toBe(false);
+  });
 });
