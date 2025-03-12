@@ -6,35 +6,16 @@ interface PriceCalculatorProps {
   initialPrice: number;
 }
 
-/**
- * ASSIGNMENT:
- *
- * This component has an anti-pattern: it uses a state setter inside useEffect.
- * Your task is to refactor this component to avoid using useEffect for calculating the final amount.
- *
- * Requirements:
- * 1. Remove the finalAmount state and useEffect
- * 2. Calculate the final amount directly during render
- * 3. Make sure all functionality remains the same
- * 4. The component should render fewer times after your changes
- *
- * HINT: Look at the demo components in the /demo directory for guidance
- */
 export const PriceCalculator = ({ initialPrice }: PriceCalculatorProps) => {
-  // Track render count
   const renderCount = useRenderCount('PriceCalculator');
   const ref = useRenderHighlight({ componentName: 'PriceCalculator' });
 
-  // State for the price and discount
   const [price, setPrice] = useState(initialPrice);
   const [discount, setDiscount] = useState(0);
 
-  // TODO: This state and the useEffect below should be removed
   const [finalAmount, setFinalAmount] = useState(initialPrice);
 
-  // TODO: This useEffect should be removed
   useEffect(() => {
-    // This causes an extra render and is unnecessary
     setFinalAmount(price - discount);
   }, [price, discount]);
 
